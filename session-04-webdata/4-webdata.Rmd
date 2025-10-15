@@ -57,7 +57,7 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ***
 ## Welcome to Week 4! `r emo::ji("wave")`
 
-Today's session will focus on regular expressions, a powerful tool for extracting information from unstructured text data and the `stringr` package, which provides a cohesive set of functions designed to make string manipulation easier in R. There is also material on Html structure and Xpath, for you to work through after the Lecture. While some of these tools may seem abstract at fiest, locating data in unstructured text and nested html structures is particularly useful when it comes to scraping data from the web, which we will cover in our next session.
+Today's session will focus on regular expressions, a powerful tool for extracting information from unstructured text data and the `stringr` package, which provides a cohesive set of functions designed to make string manipulation easier in R. There is also material on Html structure and Xpath, for you to work through after the Lecture. While some of these tools may seem abstract at first, locating data in unstructured text and nested html structures is particularly useful when it comes to scraping data from the web, which we will cover in our next session.
 
 ***
 
@@ -107,18 +107,21 @@ stringr::str_view(x, "a")
 ```
 
 :::alert-info
-**Excercise 1**: Can you find all words in that contain the sequence "ing" in the list below, and change them to be "er" instead?
+**Exercise 1**: Can you find all words in that contain the sequence "ing" in the list below, and change them to be "er" instead?
 ```{r, echo=FALSE}
 words <- c("running", "jumps", "swimming", "biking", "skates", "hiking", "fishing", "reading")
-stringr::str_detect(words, "ing")
+
+# Your code here
+stringr::str_replace_all(words, c("ing" = "er", "er" = "ed"))
 stringr::str_replace_all(words, "ing", "er")
 ```
 :::
 
 :::alert-info
-**Excercise 2**: Can you find how many words in the inbuilt `stringr::words` vector contain the sequence "ise"?
+**Exercise 2**: Can you find how many words in the inbuilt `stringr::words` vector contain the sequence "ise"?
 ```{r, echo=FALSE}
-str_detect(stringr::words, "ise") |> sum()
+# Your code here
+
 # You can access the words vector with: stringr::words
 ```
 :::
@@ -185,7 +188,6 @@ example.obj <- "1. A small sentence. - 2. Another tiny sentence."
 ### Strings match themselves
 ```{r}
 str_extract(example.obj, "small")
-str_detect(example.obj, "small")
 str_extract(example.obj, "banana")
 ```
 
@@ -246,7 +248,7 @@ unlist(str_extract_all(example.obj, fixed(".")))
 :::alert-info
 **Exercise 1**: Can you find all the words in `stringr::words` that end in "ing" or "ise"?
 ```{r}
-str_view(stringr::words, "(ise$|ing$)")
+# Your code here
 ```
 :::
 
@@ -254,7 +256,7 @@ str_view(stringr::words, "(ise$|ing$)")
 **Exercise 2**: Can you find every letter or number followed by a dot in `example.obj`?
 
 ```{r}
-str_view(example.obj, ".\\.")
+# Your code here
 ```
 :::
 
@@ -295,7 +297,6 @@ Pre-defined character classes are useful because they are efficient and let us
 
 ```{r}
 unlist(str_extract_all(example.obj, "[[:punct:]ABC]"))
-unlist(str_extract_all(example.obj, "[^[:alnum:]]"))
 ```
 
 ### Meta symbols in character classes
@@ -306,6 +307,7 @@ Within a character class, most meta-characters lose their special meaning. There
 - `-` becomes a range specifier: `[a-d]` matches any character from a to d. However, `-` at the beginning or the end of a character class matches the hyphen. 
 
 ```{r}
+unlist(str_extract_all(example.obj, "[^[:alnum:]]"))
 str_extract(example.obj, "sm[a-p]ll")
 unlist(str_extract_all(example.obj, "[1-2]"))
 unlist(str_extract_all(example.obj, "[12-]"))
@@ -314,15 +316,14 @@ unlist(str_extract_all(example.obj, "[12-]"))
 :::alert-info
 **Exercise 3**: Can you make a regex that matches only numbers followed by a dot in `example.obj`? How about letters followed by a dot?
 ```{r}
-str_view(example.obj, "[:digit:]\\.")
-str_view(example.obj, "[:alpha:]\\.")
+# Your code here
 ```
 :::
 
 :::alert-info
 **Exercise 4**: Can you find all words in `stringr::words` that end with "ed" but not with "eed"?
 ```{r}
-str_view(stringr::words, "[^e]ed$")
+# Your code here
 ```
 :::
 
@@ -357,7 +358,7 @@ str_extract(example.obj, "A.+?sentence")
 **Exercise 5** How many words are there in `stringr::words` that end with a "y" and are exactly 3 characters long?
 
 ```{r}
-str_detect(stringr::words, '^[:alpha:]{2}y$') |> sum()
+# Your code here
 ```
 :::
 :::alert-info
@@ -365,9 +366,7 @@ str_detect(stringr::words, '^[:alpha:]{2}y$') |> sum()
 
 Hint: `\\b` can be use to match a word boundary, i.e. the start or end of a word.
 ```{r}
-str_view(example.obj, "1<[[:alpha:]]<6") # lol incorrect regex syntax
-
-str_view(example.obj, "\\b[[:alpha:]]{1,5}\\b")
+# Your code here
 ```
 :::
 
@@ -404,7 +403,7 @@ Finally a word of caution at the end: Since regular expressions are extremely po
 
       a. `"\\$[0-9]+"`
       a. `"^.*$"`
-      a. `"\\d{4}-\\d{2}-\\d{2}"`
+      a. `"\-\\d{\d{4}2}-\\d{2}"`
       a. `".*?\\.txt$"`
       a. `"\\\\{4}"`
       a. `"b[a-z]{1,4}"`
