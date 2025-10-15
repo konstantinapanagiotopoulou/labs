@@ -110,16 +110,15 @@ stringr::str_view(x, "a")
 **Excercise 1**: Can you find all words in that contain the sequence "ing" in the list below, and change them to be "er" instead?
 ```{r, echo=FALSE}
 words <- c("running", "jumps", "swimming", "biking", "skates", "hiking", "fishing", "reading")
-
-# Your code here
+stringr::str_detect(words, "ing")
+stringr::str_replace_all(words, "ing", "er")
 ```
 :::
 
 :::alert-info
 **Excercise 2**: Can you find how many words in the inbuilt `stringr::words` vector contain the sequence "ise"?
 ```{r, echo=FALSE}
-# Your code here
-
+str_detect(stringr::words, "ise") |> sum()
 # You can access the words vector with: stringr::words
 ```
 :::
@@ -186,6 +185,7 @@ example.obj <- "1. A small sentence. - 2. Another tiny sentence."
 ### Strings match themselves
 ```{r}
 str_extract(example.obj, "small")
+str_detect(example.obj, "small")
 str_extract(example.obj, "banana")
 ```
 
@@ -246,7 +246,7 @@ unlist(str_extract_all(example.obj, fixed(".")))
 :::alert-info
 **Exercise 1**: Can you find all the words in `stringr::words` that end in "ing" or "ise"?
 ```{r}
-# Your code here
+str_view(stringr::words, "(ise$|ing$)")
 ```
 :::
 
@@ -254,7 +254,7 @@ unlist(str_extract_all(example.obj, fixed(".")))
 **Exercise 2**: Can you find every letter or number followed by a dot in `example.obj`?
 
 ```{r}
-# Your code here
+str_view(example.obj, ".\\.")
 ```
 :::
 
@@ -314,14 +314,15 @@ unlist(str_extract_all(example.obj, "[12-]"))
 :::alert-info
 **Exercise 3**: Can you make a regex that matches only numbers followed by a dot in `example.obj`? How about letters followed by a dot?
 ```{r}
-# Your code here
+str_view(example.obj, "[:digit:]\\.")
+str_view(example.obj, "[:alpha:]\\.")
 ```
 :::
 
 :::alert-info
 **Exercise 4**: Can you find all words in `stringr::words` that end with "ed" but not with "eed"?
 ```{r}
-# Your code here
+str_view(stringr::words, "[^e]ed$")
 ```
 :::
 
@@ -356,7 +357,7 @@ str_extract(example.obj, "A.+?sentence")
 **Exercise 5** How many words are there in `stringr::words` that end with a "y" and are exactly 3 characters long?
 
 ```{r}
-# Your code here
+str_detect(stringr::words, '^[:alpha:]{2}y$') |> sum()
 ```
 :::
 :::alert-info
@@ -364,7 +365,9 @@ str_extract(example.obj, "A.+?sentence")
 
 Hint: `\\b` can be use to match a word boundary, i.e. the start or end of a word.
 ```{r}
-# Your code here
+str_view(example.obj, "1<[[:alpha:]]<6") # lol incorrect regex syntax
+
+str_view(example.obj, "\\b[[:alpha:]]{1,5}\\b")
 ```
 :::
 
